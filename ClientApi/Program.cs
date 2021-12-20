@@ -19,7 +19,7 @@ namespace ClientApi {
                     builder
                         .ClearProviders()
                         .AddConsole()
-                        .AddConfiguration(ctx.Configuration.GetSection("Logging")))
+                        .AddConfiguration(ctx.Configuration))
                 .ConfigureWebHostDefaults(webBuilder => {
                     webBuilder.UseStartup<Startup>();
                 });

@@ -94,8 +94,7 @@ namespace ClientApi {
                             })
                              .ConfigureApplicationParts(p => {
                                  p.AddApplicationPart(typeof(IPingGrain).Assembly).WithReferences();
-                             })
-                            .ConfigureLogging(logging => logging.AddConsole());
+                             });
                     var client = clientBuilder.Build();
                     client.Connect().Wait();
 

@@ -24,10 +24,8 @@ await Host.CreateDefaultBuilder(Environment.GetCommandLineArgs())
                         .AddMemoryGrainStorage("PubSubStore")
                         .AddMemoryGrainStorageAsDefault()
     )
-    .ConfigureServices((hostingContext, services) => {
-        var conf = hostingContext.Configuration;
+    .ConfigureServices((_, services) => {
         services.Configure<ConsoleLifetimeOptions>(o => { o.SuppressStatusMessages = true; });
-        
     })
     .RunConsoleAsync();
 
