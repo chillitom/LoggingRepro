@@ -24,8 +24,6 @@ namespace ClientApi {
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services) {
-            services.AddLogging();
-
             var clusterClient = CreateOrleansClient();
 
             var origins = Configuration["Web:Origins"] ?? throw new InvalidOperationException("missing Web.Origins config value");

@@ -3,12 +3,18 @@ using System.Net;
 using Grains;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Clustering.Kubernetes;
 using Orleans.Configuration;
 using Orleans.Hosting;
 
 await Host.CreateDefaultBuilder(Environment.GetCommandLineArgs())
+    .ConfigureLogging((ctx, builder) =>
+            builder
+                .ClearProviders()
+                .AddConsole()
+                .AddConfiguration(ctx.Configuration.GetSection("Logging")))
     .UseOrleans(builder =>
                     ConfigureHosting(builder)
                         .ConfigureApplicationParts(parts => parts.AddApplicationPart(typeof(PingGrain).Assembly).WithReferences())
@@ -19,8 +25,9 @@ await Host.CreateDefaultBuilder(Environment.GetCommandLineArgs())
                         .AddMemoryGrainStorageAsDefault()
     )
     .ConfigureServices((hostingContext, services) => {
-        services.Configure<ConsoleLifetimeOptions>(o => { o.SuppressStatusMessages = true; });
         var conf = hostingContext.Configuration;
+        services.Configure<ConsoleLifetimeOptions>(o => { o.SuppressStatusMessages = true; });
+        
     })
     .RunConsoleAsync();
 
